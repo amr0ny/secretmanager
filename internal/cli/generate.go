@@ -39,7 +39,7 @@ func NewGenerateCommand() *cobra.Command {
 			if err != nil {
 				return fmt.Errorf("failed to insert secret: %w", err)
 			}
-			fmt.Printf("Generated secret: %s\n", hash)
+			fmt.Printf("Generated secret: %s\n", secret)
 			return nil
 		},
 	}
