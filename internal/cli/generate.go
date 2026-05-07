@@ -4,10 +4,11 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"fmt"
+
+	"github.com/alexalexdidit/secretmanager/config"
+	"github.com/alexalexdidit/secretmanager/internal/auth"
+	"github.com/alexalexdidit/secretmanager/internal/infrastructure/database"
 	"github.com/spf13/cobra"
-	"secretmanager/config"
-	"secretmanager/internal/auth"
-	"secretmanager/internal/infrastructure/database"
 )
 
 func NewGenerateCommand() *cobra.Command {
