@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/alexalexdidit/secretmanager/internal/cli"
+	"github.com/amr0ny/secretmanager/internal/cli"
 )
 
 func main() {

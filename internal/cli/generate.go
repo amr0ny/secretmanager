@@ -5,9 +5,9 @@ import (
 	"encoding/base64"
 	"fmt"
 
-	"github.com/alexalexdidit/secretmanager/config"
-	"github.com/alexalexdidit/secretmanager/internal/auth"
-	"github.com/alexalexdidit/secretmanager/internal/infrastructure/database"
+	"github.com/amr0ny/secretmanager/config"
+	"github.com/amr0ny/secretmanager/internal/auth"
+	"github.com/amr0ny/secretmanager/internal/infrastructure/database"
 	"github.com/spf13/cobra"
 )
 

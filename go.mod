@@ -1,4 +1,4 @@
-module github.com/alexalexdidit/secretmanager
+module github.com/amr0ny/secretmanager
 
 go 1.25.0
 
