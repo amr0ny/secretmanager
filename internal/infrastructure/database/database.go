@@ -40,21 +40,6 @@ func (db *DB) ensureWorkingTable(ctx context.Context) error {
 		return err
 	}
 	if _, err := db.pool.Exec(ctx, `
-		ALTER TABLE secrets ADD COLUMN IF NOT EXISTS name TEXT
-	`); err != nil {
-		return err
-	}
-	if _, err := db.pool.Exec(ctx, `
-		UPDATE secrets SET name = 'legacy-' || id::text WHERE name IS NULL
-	`); err != nil {
-		return err
-	}
-	if _, err := db.pool.Exec(ctx, `
-		ALTER TABLE secrets ALTER COLUMN name SET NOT NULL
-	`); err != nil {
-		return err
-	}
-	if _, err := db.pool.Exec(ctx, `
 		CREATE UNIQUE INDEX IF NOT EXISTS secrets_name_unique ON secrets (name)
 	`); err != nil {
 		return err
