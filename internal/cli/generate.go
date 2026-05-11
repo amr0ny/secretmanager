@@ -3,6 +3,7 @@ package cli
 import (
 	"crypto/rand"
 	"encoding/base64"
+	"encoding/hex"
 	"fmt"
 
 	"github.com/amr0ny/secretmanager/config"
@@ -13,6 +14,7 @@ import (
 
 func NewGenerateCommand() *cobra.Command {
 	var keySize int
+	var secretName string
 	cmd := &cobra.Command{
 		Use:   "generate",
 		Short: "Generate a new secret",
@@ -35,15 +37,23 @@ func NewGenerateCommand() *cobra.Command {
 			if err != nil {
 				return fmt.Errorf("failed to hash secret: %w", err)
 			}
-			err = db.InsertSecret(ctx, hash)
+			name := secretName
+			if name == "" {
+				name, err = randomSecretName()
+				if err != nil {
+					return fmt.Errorf("failed to generate secret name: %w", err)
+				}
+			}
+			err = db.InsertSecret(ctx, name, hash)
 			if err != nil {
 				return fmt.Errorf("failed to insert secret: %w", err)
 			}
-			fmt.Printf("Generated secret: %s\n", secret)
+			fmt.Printf("Generated secret: %s\nName: %s\n", secret, name)
 			return nil
 		},
 	}
 	cmd.Flags().IntVar(&keySize, "key-size", 32, "Key size should be at least 32 (default 32)")
+	cmd.Flags().StringVar(&secretName, "name", "", "Secret name (random id is generated if omitted)")
 	return cmd
 }
 
@@ -58,4 +68,12 @@ func generateSecret(keySize int) (string, error) {
 	}
 
 	return base64.URLEncoding.EncodeToString(key), nil
+}
+
+func randomSecretName() (string, error) {
+	b := make([]byte, 16)
+	if _, err := rand.Read(b); err != nil {
+		return "", fmt.Errorf("failed to generate random name: %w", err)
+	}
+	return hex.EncodeToString(b), nil
 }
